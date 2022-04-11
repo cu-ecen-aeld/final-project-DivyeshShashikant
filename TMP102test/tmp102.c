@@ -29,10 +29,10 @@ int main()
 
 	char read_data[2] = {0};
 	
-	if((read_data[0] >> 7) == 1)
-	{
-		negative_temp = 1;	
-	}
+	//if((read_data[0] >> 7) == 1)
+	//{
+	//	negative_temp = 1;	
+	//}
 	
 
 	if(read(file, read_data, 2)!=2)
