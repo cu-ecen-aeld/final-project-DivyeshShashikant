@@ -108,7 +108,7 @@ int get_temp_values(void)
 	{
 		printf("negative temperature\n");
 		final_temp = (( 257 - (temp * 0.0625))  * (-1)); //convert data
-		return -1 ;
+		return final_temp ;
 	}
 	
 	final_temp = temp * 0.0625; //final temperature values
@@ -220,7 +220,7 @@ int main(void)
 			
 			strcpy(data_buf, "server send: ");
 			
-			 temp = get_temp_values();
+			 
 			
 			//sprintf(data_buf, "%.2f", temp);
 			
@@ -315,6 +315,7 @@ int main(void)
 					//char *sendt = "HI";
 					printf("received command is %s\r\n", test_buf);
 					//sprintf(data_buf, "%s", sendt);
+					temp = get_temp_values();
 					sprintf(data_buf, "%.2f", temp);
 					total_bytes = strlen(data_buf)+1;
 					do

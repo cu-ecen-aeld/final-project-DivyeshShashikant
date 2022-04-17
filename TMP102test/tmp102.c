@@ -61,7 +61,8 @@ int main()
 	{
 		printf("negative temperature\n");
 		final_temp = (( 257 - (temp * 0.0625))  * (-1)); //convert data
-		return -1 ;
+		printf("The temperature in celsius %f", final_temp); //print data to terminal
+		return 0 ;
 	}
 	
 	final_temp = temp * 0.0625; //final temperature values
