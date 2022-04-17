@@ -38,7 +38,7 @@ int main()
 	float temp, final_temp;
 	int negative_temp;
 
-	int read_data[2] = {0};
+	unsigned char read_data[2] = {0};
 	
 	
 	
@@ -55,6 +55,8 @@ int main()
 	
 	printf("read_data 0 is %x\r\n",read_data[0]);
     	printf("read_data 1 is %x\r\n",read_data[1]);
+    	printf("temp value is %f\r\n",temp);
+    	
 	
 	if((read_data[0] >> 7) == 1) //check for negative temperature values
 	{

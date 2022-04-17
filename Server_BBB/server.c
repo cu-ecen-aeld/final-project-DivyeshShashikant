@@ -11,6 +11,7 @@
 #include<netdb.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdint.h>
 #include<unistd.h>
 #include<string.h>
 #include<sys/stat.h>
@@ -215,7 +216,7 @@ int main(void)
 		
 		while(1)
 		{
-			memset(data_buf, 0, MAX_DATA_BYTES);
+			memset(data_buf, 0, sizeof data_buf);
 			
 			
 			strcpy(data_buf, "server send: ");
