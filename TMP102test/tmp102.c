@@ -38,7 +38,7 @@ int main()
 	float temp, final_temp;
 	int negative_temp;
 
-	char read_data[2] = {0};
+	int read_data[2] = {0};
 	
 	
 	
@@ -52,6 +52,10 @@ int main()
 		temp = ((read_data[0] << 4 ) | ( read_data[1] >> 4)); //convert data
 	}
 	
+	
+	printf("read_data 0 is %x\r\n",read_data[0]);
+    	printf("read_data 1 is %x\r\n",read_data[1]);
+	
 	if((read_data[0] >> 7) == 1) //check for negative temperature values
 	{
 		negative_temp = 1;	
@@ -61,7 +65,7 @@ int main()
 	{
 		printf("negative temperature\n");
 		final_temp = (( 257 - (temp * 0.0625))  * (-1)); //convert data
-		printf("The temperature in celsius %f", final_temp); //print data to terminal
+		printf("The negative temperature in celsius %f", final_temp); //print data to terminal
 		return 0 ;
 	}
 	
