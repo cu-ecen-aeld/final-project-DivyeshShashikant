@@ -1,12 +1,20 @@
-CC=${CROSS_COMPILE}gcc
-CFLAGS=-g -Wall -Werror 
+ifeq ($(CC),)
+	CC = ${CROSS_COMPILE}gcc
+endif
+ifeq ($(CFLAGS),)
+	CFLAGS = -g -Wall -Werror 
+endif
+ifeq ($(LDFLAGS),)
+	LDFLAGS = -pthread -lrt
+endif
 
 default: server
 
 all : server
 
 server: server.o
-	${CC} ${CFLAGS} server.c -o server -lpthread
+	$(CC) $(CFLAGS) $^ -o $@ $(INCLUDES) $(LDFLAGS)
 
-clean:
+clean: 
 	-rm -f *.o server
+	
