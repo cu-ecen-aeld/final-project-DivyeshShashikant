@@ -191,7 +191,7 @@ int main(void)
 
 	printf("server: waiting for connections...\n");
 
-	//float 		temp = 0;	// temparature data
+	float 		temp = 0;	// temparature data
 	char 		data_buf[] = "test string from server\n";	// the string that server sends to client
 	
 	char *ptr = NULL;
@@ -220,7 +220,7 @@ int main(void)
 			
 			strcpy(data_buf, "server send: ");
 			
-			 //temp = get_temp_values();
+			 temp = get_temp_values();
 			
 			//sprintf(data_buf, "%.2f", temp);
 			
@@ -312,9 +312,10 @@ int main(void)
 					
 				if(strcmp(test_buf, receive)==0)
 				{
-					char *sendt = "HI";
+					//char *sendt = "HI";
 					printf("received command is %s\r\n", test_buf);
-					sprintf(data_buf, "%s", sendt);
+					//sprintf(data_buf, "%s", sendt);
+					sprintf(data_buf, "%.2f", temp);
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
