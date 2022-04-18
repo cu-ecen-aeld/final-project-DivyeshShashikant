@@ -62,7 +62,7 @@ void *get_in_addr(struct sockaddr *sa)
 
 int get_temp_values(void)
 {
-	//open file to read data on the i2c bus
+//open file to read data on the i2c bus
 	int file;
 	char *bus = "/dev/i2c-2";
 
@@ -79,16 +79,10 @@ int get_temp_values(void)
 	char config[1] = {0};
 	config[0] = 0x00;
 	write(file, config, 1);
-	//sleep(1);
 	
+	float temp, final_temp, fahrenheit;
 	
-
-	float temp, final_temp;
-	int negative_temp;
-
-	char read_data[2] = {0};
-	
-	
+	unsigned char read_data[2] = {0};
 	
 	//read 2 bytes of temperature data
 	if(read(file, read_data, 2)!=2)
@@ -97,33 +91,19 @@ int get_temp_values(void)
 	}
 	else
 	{
-		temp = ((read_data[0] << 4 ) | ( read_data[1] >> 4)); //convert data
+		temp = ((read_data[0] << 4 ) | ( read_data[1] >> 4)); //convert data to 12 bit temperature values
 	}
 	
-	if((read_data[0] >> 7) == 1) //check for negative temperature values
-	{
-		negative_temp = 1;	
-	}
-
-	if(negative_temp)
-	{
-		printf("negative temperature\n");
-		final_temp = (( 257 - (temp * 0.0625))  * (-1)); //convert data
-		return final_temp ;
-	}
 	
 	final_temp = temp * 0.0625; //final temperature values
-
-	printf("The temperature in celsius %f", final_temp); //print data to terminal
+	fahrenheit = (1.8 * final_temp) + 32;
+	
+	printf("The temperature in celsius %fC\r\n", final_temp); //print C temperature data to terminal
+	printf("The temperature in fahrenheit %fF\r\n", fahrenheit); //print F temperature to terminal
 	
 	return final_temp;
 
 }
-
-
-
-
-
 
 
 int main(void)
@@ -147,7 +127,7 @@ int main(void)
 		return 1;
 	}
 
-	// loop through all the results and bind to the first we can
+	// loop through all the results and bind to the first connection we can
 	for(p = servinfo; p != NULL; p = p->ai_next) {
 		if ((sockfd = socket(p->ai_family, p->ai_socktype,
 				p->ai_protocol)) == -1) {
@@ -217,21 +197,12 @@ int main(void)
 		while(1)
 		{
 			memset(data_buf, 0, sizeof data_buf);
-			
-			
 			strcpy(data_buf, "server send: ");
-			
-			 
-			
-			//sprintf(data_buf, "%.2f", temp);
 			
 			int total_bytes = strlen(data_buf)+1;
 			int bytes_sent = 0;
 			
-			//ptr = test_buf;
 			int ret = 0;
-			
-			
 			
 			do
 			{
@@ -247,37 +218,7 @@ int main(void)
 				
 			}while(total_bytes != 0);
 			
-
-
-			//ptr = test_buf;
 			ret = 0;
-/*			while(1){*/
-/*				ret = recv(new_fd, ptr, 1, 0);*/
-/*				if(ret == -1){*/
-/*					syslog(LOG_ERR, "Error client recv: %d", errno);*/
-/*					closelog();*/
-/*					close(new_fd);*/
-/*					// rc = FAIL_READ;*/
-/*					exit(-1);*/
-/*				}*/
-
-/*				if(*ptr == '\0'){*/
-/*					//End of reading string*/
-/*					// rc = SUCCESSFUL_READ;*/
-/*					break;*/
-/*				}*/
-/*				// else if(recv_cnt >=(MAXDATALEN-1)){*/
-/*				// 	syslog(LOG_ERR, "Client reciver buffer size exceeded");*/
-/*				// 	printf("Buffer size exceeded\n");*/
-/*				// 	rc = OVERFLOW;*/
-/*				// 	break;*/
-/*				// }   */
-/*				else{*/
-/*					//Increment count if received a valid char successfully*/
-/*					// recv_cnt++;                                     //Maintain the receiver count to keep check*/
-/*					ptr++;*/
-/*				}*/
-/*			}*/
 
 			while(1)
 			{	
@@ -313,9 +254,8 @@ int main(void)
 					
 				if(strcmp(test_buf, receive)==0)
 				{
-					//char *sendt = "HI";
+					
 					printf("received command is %s\r\n", test_buf);
-					//sprintf(data_buf, "%s", sendt);
 					temp = get_temp_values();
 					sprintf(data_buf, "%.2f", temp);
 					total_bytes = strlen(data_buf)+1;
@@ -333,7 +273,7 @@ int main(void)
 						
 					}while(total_bytes != 0);
 					
-					//printf("feedback from client: %s\n", test_buf);
+					printf("feedback from client: %s\n", test_buf);
 										
 				}
 				else
@@ -358,10 +298,9 @@ int main(void)
 						
 					}while(total_bytes != 0);
 					
-					//printf("feedback from client: %s\n", test_buf);
+					printf("feedback from client: %s\n", test_buf);
 				}
 			}
-			//printf("feedback from client: %s\n", test_buf);
 		}
 	}
 

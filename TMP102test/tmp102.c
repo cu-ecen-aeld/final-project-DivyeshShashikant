@@ -35,12 +35,9 @@ int main()
 	
 	
 
-	float temp, final_temp;
-	int negative_temp;
-
+	float temp, final_temp, fahrenheit;
+	
 	unsigned char read_data[2] = {0};
-	
-	
 	
 	//read 2 bytes of temperature data
 	if(read(file, read_data, 2)!=2)
@@ -49,32 +46,15 @@ int main()
 	}
 	else
 	{
-		temp = ((read_data[0] << 4 ) | ( read_data[1] >> 4)); //convert data
+		temp = ((read_data[0] << 4 ) | ( read_data[1] >> 4)); //convert data to 12 bit temperature values
 	}
 	
-	
-	printf("read_data 0 is %x\r\n",read_data[0]);
-    	printf("read_data 1 is %x\r\n",read_data[1]);
-    	printf("temp value is %f\r\n",temp);
-    	
-	
-	if((read_data[0] >> 7) == 1) //check for negative temperature values
-	{
-		negative_temp = 1;	
-	}
-
-	if(negative_temp)
-	{
-		printf("negative temperature\n");
-		final_temp = (( 257 - (temp * 0.0625))  * (-1)); //convert data
-		printf("The negative temperature in celsius %f", final_temp); //print data to terminal
-		return 0 ;
-	}
 	
 	final_temp = temp * 0.0625; //final temperature values
-
-	printf("The temperature in celsius %f", final_temp); //print data to terminal
-
+	fahrenheit = (1.8 * final_temp) + 32;
+	
+	printf("The temperature in celsius %fC\r\n", final_temp); //print C temperature data to terminal
+	printf("The temperature in fahrenheit %fF\r\n", fahrenheit); //print F temperature to terminal
 	return 0;
 
 }
