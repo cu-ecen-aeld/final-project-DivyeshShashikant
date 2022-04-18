@@ -192,7 +192,8 @@ int main(void)
 			s, sizeof s);
 		printf("server: got connection from %s\n", s);
 		
-		char *receive = "READTEMP";
+		char *receive_c = "READC";
+		char *receive_f = "READF";
 		
 		while(1)
 		{
@@ -251,12 +252,37 @@ int main(void)
 				
 				printf("test_buf is %s\r\n",test_buf);
 					
-				if(strcmp(test_buf, receive)==0)
+				if(strcmp(test_buf, receive_c)==0)
 				{
 					
 					printf("received command is %s\r\n", test_buf);
 					temp = get_temp_values();
-					sprintf(data_buf, "%.2f", temp);
+					sprintf(data_buf, "%.2f C", temp);
+					total_bytes = strlen(data_buf)+1;
+					do
+					{
+						bytes_sent = send(new_fd, data_buf, total_bytes, 0);
+						if (bytes_sent == -1)
+						{
+							perror("send");
+							close(new_fd);
+							exit(-1);
+						}
+						
+						total_bytes -= bytes_sent;
+						
+					}while(total_bytes != 0);
+					
+					printf("feedback from client: %s\n", test_buf);
+										
+				}
+				else if(strcmp(test_buf, receive_f)==0)
+				{
+					
+					printf("received command is %s\r\n", test_buf);
+					temp = get_temp_values();
+					temp = (temp * 1.8) + 32;
+					sprintf(data_buf, "%.2f F", temp);
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
