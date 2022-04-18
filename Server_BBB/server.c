@@ -241,7 +241,6 @@ int main(void)
 					}
 					if((*ptr == '\r') || (*ptr == '\0'))
 					{
-						printf("newline pressed\r\n");
 						break;
 					}
 					else
@@ -250,8 +249,7 @@ int main(void)
 					}
 				}
 				
-				printf("test_buf is %s\r\n",test_buf);
-					
+				
 				if(strcmp(test_buf, receive_c)==0)
 				{
 					
@@ -272,8 +270,6 @@ int main(void)
 						total_bytes -= bytes_sent;
 						
 					}while(total_bytes != 0);
-					
-					printf("feedback from client: %s\n", test_buf);
 										
 				}
 				else if(strcmp(test_buf, receive_f)==0)
@@ -297,8 +293,6 @@ int main(void)
 						total_bytes -= bytes_sent;
 						
 					}while(total_bytes != 0);
-					
-					printf("feedback from client: %s\n", test_buf);
 										
 				}
 				else
@@ -323,7 +317,6 @@ int main(void)
 						
 					}while(total_bytes != 0);
 					
-					printf("feedback from client: %s\n", test_buf);
 				}
 			}
 		}
