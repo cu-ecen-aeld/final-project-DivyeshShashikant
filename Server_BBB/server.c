@@ -60,7 +60,7 @@ void *get_in_addr(struct sockaddr *sa)
 }
 
 
-int get_temp_values(void)
+float get_temp_values(void)
 {
 //open file to read data on the i2c bus
 	int file;
@@ -227,7 +227,6 @@ int main(void)
 				memset(test_buf, 0, sizeof test_buf);
 		
 				ptr = test_buf;
-				printf("receivinf again\r\n");	
 				while(1)
 				{
 					ret = recv(new_fd, ptr, 1, 0);
