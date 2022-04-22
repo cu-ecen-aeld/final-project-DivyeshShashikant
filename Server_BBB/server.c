@@ -108,6 +108,11 @@ float get_temp_values(void)
 
 int main(void)
 {
+	time_t rawtime;  //instance to return raw time in terms of Epoch
+	struct tm* timeinfo;	//Instance of structure to breakdown time in terms of time and date parameters
+	
+	
+
 	int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
 	struct addrinfo hints, *servinfo, *p;
 	struct sockaddr_storage their_addr; // connector's address information
@@ -255,7 +260,9 @@ int main(void)
 					
 					printf("received command is %s\r\n", test_buf);
 					temp = get_temp_values();
-					sprintf(data_buf, "%.2f C", temp);
+					time(&rawtime);	//get the current Epoch and save in an instance
+					timeinfo = localtime(&rawtime);	//breakdown epoch in terms of local time
+					sprintf(data_buf, "%s: %.2f C", asctime(timeinfo), temp);
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
@@ -278,7 +285,9 @@ int main(void)
 					printf("received command is %s\r\n", test_buf);
 					temp = get_temp_values();
 					temp = (temp * 1.8) + 32;
-					sprintf(data_buf, "%.2f F", temp);
+					time(&rawtime);	//get the current Epoch and save in an instance
+					timeinfo = localtime(&rawtime);	//breakdown epoch in terms of local time
+					sprintf(data_buf, "%s: %.2f F", asctime(timeinfo), temp);
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
