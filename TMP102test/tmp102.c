@@ -11,9 +11,20 @@
 #include<sys/ioctl.h>
 #include<fcntl.h>
 #include<unistd.h>
+#include<time.h>
 
 int main()
 {
+
+	time_t rawtime;
+	struct tm* timeinfo;
+	
+	
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	
+	
+	
 	//open file to read data on the i2c bus
 	int file;
 	char *bus = "/dev/i2c-2";
@@ -53,8 +64,8 @@ int main()
 	final_temp = temp * 0.0625; //final temperature values
 	fahrenheit = (1.8 * final_temp) + 32;
 	
-	printf("The temperature in celsius %fC\r\n", final_temp); //print C temperature data to terminal
-	printf("The temperature in fahrenheit %fF\r\n", fahrenheit); //print F temperature to terminal
+	printf("The temperature in celsius %fC %s\r\n", final_temp, asctime(timeinfo)); //print C temperature data to terminal
+	printf("The temperature in fahrenheit %fF %s\r\n", fahrenheit, asctime(timeinfo)); //print F temperature to terminal
 	return 0;
 
 }
