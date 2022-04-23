@@ -233,6 +233,12 @@ int main(void)
 				memset(test_buf, 0, sizeof test_buf);
 		
 				ptr = test_buf;
+				
+				 uint8_t result[50]={0};
+				 uint8_t final_data[50]={0};
+				 uint8_t final[50] = {0};
+				
+				
 				while(1)
 				{
 					ret = recv(new_fd, ptr, 1, 0);
@@ -262,7 +268,15 @@ int main(void)
 					temp = get_temp_values();
 					time(&rawtime);	//get the current Epoch and save in an instance
 					timeinfo = localtime(&rawtime);	//breakdown epoch in terms of local time
-					sprintf(data_buf, "%s: %.2f C", asctime(timeinfo), temp);
+					//sprintf(data_buf, "%s:\b\b %.2f C", asctime(timeinfo), temp);
+					
+					strcpy(result, asctime(timeinfo));
+					for(i=0; result[i]!='\n'; i++)
+					{
+						final_data[i] = result[i];
+					}
+					sprintf(data_buf, "%s: %d C", final_data, temp); //append timestamp to temp values
+					
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
@@ -287,7 +301,14 @@ int main(void)
 					temp = (temp * 1.8) + 32;
 					time(&rawtime);	//get the current Epoch and save in an instance
 					timeinfo = localtime(&rawtime);	//breakdown epoch in terms of local time
-					sprintf(data_buf, "%s: %.2f F", asctime(timeinfo), temp);
+					//sprintf(data_buf, "%s: %.2f F", asctime(timeinfo), temp);
+					
+					strcpy(result, asctime(timeinfo));
+					for(i=0; result[i]!='\n'; i++)
+					{
+						final_data[i] = result[i];
+					}
+					sprintf(data_buf, "%s: %d F", final_data, temp); //append timestamp to temp values 
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
