@@ -178,7 +178,7 @@ int main(void)
 	printf("server: waiting for connections...\n");
 
 	float 		temp = 0;	// temparature data
-	char 		data_buf[] = "test string from server\n";	// the string that server sends to client
+	char 		data_buf[100] = "test string from server\n";	// the string that server sends to client
 	
 	char *ptr = NULL;
 	
@@ -234,9 +234,9 @@ int main(void)
 		
 				ptr = test_buf;
 				
-				 uint8_t result[50]={0};
-				 uint8_t final_data[50]={0};
-				 uint8_t final[50] = {0};
+				 char result[50]={0};
+				 char final_data[50]={0};
+				// uint8_t final[50] = {0};
 				
 				
 				while(1)
@@ -271,11 +271,11 @@ int main(void)
 					//sprintf(data_buf, "%s:\b\b %.2f C", asctime(timeinfo), temp);
 					
 					strcpy(result, asctime(timeinfo));
-					for(i=0; result[i]!='\n'; i++)
+					for(int i=0; result[i]!='\n'; i++)
 					{
 						final_data[i] = result[i];
 					}
-					sprintf(data_buf, "%s: %d C", final_data, temp); //append timestamp to temp values
+					sprintf(data_buf, "%s: %.2f C", final_data, temp); //append timestamp to temp values
 					
 					total_bytes = strlen(data_buf)+1;
 					do
@@ -304,11 +304,11 @@ int main(void)
 					//sprintf(data_buf, "%s: %.2f F", asctime(timeinfo), temp);
 					
 					strcpy(result, asctime(timeinfo));
-					for(i=0; result[i]!='\n'; i++)
+					for(int i=0; result[i]!='\n'; i++)
 					{
 						final_data[i] = result[i];
 					}
-					sprintf(data_buf, "%s: %d F", final_data, temp); //append timestamp to temp values 
+					sprintf(data_buf, "%s: %.2f F", final_data, temp); //append timestamp to temp values 
 					total_bytes = strlen(data_buf)+1;
 					do
 					{
